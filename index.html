@@ -6,9 +6,6 @@
 <title>AXIOM — 3D Science Simulation Platform</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════
-   AXIOM — FIXED & COMPLETE BUILD
-═══════════════════════════════════════════ */
 :root{
   --ink:#020609; --deep:#050e1a; --panel:#091525; --surface:#0b1a2e;
   --b1:rgba(80,160,255,0.1); --b2:rgba(80,160,255,0.22);
@@ -22,12 +19,10 @@
 html,body{height:100%;overflow:hidden;}
 body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;display:flex;flex-direction:column;}
 
-/* ─ cursor ─ */
 #cr1,#cr2{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
 #cr1{width:8px;height:8px;background:#fff;mix-blend-mode:difference;}
 #cr2{width:26px;height:26px;border:1px solid rgba(255,255,255,0.25);transition:width .15s,height .15s,border-color .15s;}
 
-/* ─ topbar ─ */
 .topbar{
   height:var(--topH);flex-shrink:0;
   background:rgba(2,5,9,0.98);border-bottom:1px solid var(--b1);
@@ -85,7 +80,6 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
   letter-spacing:2px;color:var(--muted);white-space:nowrap;flex-shrink:0;margin-left:auto;
 }
 
-/* ─ body ─ */
 .app-body{flex:1;display:flex;overflow:hidden;min-height:0;}
 
 /* ─ sidebar ─ */
@@ -103,7 +97,6 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 .sb-scroll::-webkit-scrollbar{width:3px;}
 .sb-scroll::-webkit-scrollbar-thumb{background:rgba(80,160,255,0.15);}
 
-/* sidebar groups */
 .sg{border-bottom:1px solid var(--b1);}
 .sg-hdr{
   padding:11px 14px;display:flex;align-items:center;gap:9px;
@@ -126,77 +119,15 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 .ss-name{font-size:.85rem;font-weight:600;color:var(--txt);display:block;line-height:1.3;transition:color .15s;}
 .ss-lv{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:1px;color:var(--muted);text-transform:uppercase;display:block;margin-top:1px;}
 
-/* ─ CENTER grid ─ */
-.center{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
-.grid-scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:20px 18px;scrollbar-width:thin;scrollbar-color:rgba(80,160,255,0.1) transparent;}
-.grid-scroll::-webkit-scrollbar{width:3px;}
-.grid-scroll::-webkit-scrollbar-thumb{background:rgba(80,160,255,0.15);}
-
-.sec-hdr{
-  display:flex;align-items:center;gap:10px;
-  font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;
-  margin-bottom:10px;margin-top:4px;
-}
-.sec-hdr em{font-family:'JetBrains Mono',monospace;font-size:.55rem;font-style:normal;letter-spacing:2px;color:var(--muted);}
-.cards-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
-  gap:1px;margin-bottom:28px;background:var(--b1);border:1px solid var(--b1);
-}
-/* sim card — inline style sets --cc per card */
-.sc{
-  background:var(--panel);padding:18px 16px;cursor:pointer;
-  position:relative;overflow:hidden;
-  display:flex;flex-direction:column;min-height:160px;
-  transition:background .2s;
-}
-.sc:hover{background:var(--surface);}
-.sc.on{background:var(--surface);border-left:2px solid var(--cc);}
-.sc::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
-  background:var(--cc);transform:scaleX(0);transform-origin:left;transition:transform .3s;
-}
-.sc:hover::after,.sc.on::after{transform:scaleX(1);}
-.sc-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:9px;}
-.sc-ico{font-size:1.3rem;flex-shrink:0;}
-.sc-id{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:2px;color:var(--muted);display:block;margin-bottom:3px;}
-.sc-nm{font-family:'Syne',sans-serif;font-weight:700;font-size:.88rem;line-height:1.25;color:var(--cc);}
-.sc-ds{font-size:.8rem;color:var(--muted);line-height:1.55;flex:1;}
-.sc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
-.sc-tag{font-family:'JetBrains Mono',monospace;font-size:.48rem;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;background:rgba(255,255,255,0.03);border:1px solid var(--b1);color:var(--muted);}
-.sc-play{
-  position:absolute;top:12px;right:12px;
-  width:24px;height:24px;border-radius:50%;
-  background:rgba(255,255,255,0.05);border:1px solid var(--b1);
-  display:flex;align-items:center;justify-content:center;
-  font-size:.6rem;color:var(--muted);transition:all .2s;
-}
-.sc:hover .sc-play{background:var(--cc);border-color:var(--cc);color:#000;}
-.sc.on .sc-play{background:var(--cc);border-color:var(--cc);color:#000;}
-.sc-live{
-  position:absolute;bottom:8px;right:8px;
-  font-family:'JetBrains Mono',monospace;font-size:.48rem;
-  letter-spacing:2px;text-transform:uppercase;
-  padding:2px 6px;background:rgba(0,0,0,0.6);
-  color:var(--cc);border:1px solid var(--cc);
-  animation:livePulse 1.5s ease infinite;
-}
-@keyframes livePulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-.no-res{
-  padding:50px 20px;text-align:center;
-  font-family:'JetBrains Mono',monospace;font-size:.65rem;
-  letter-spacing:3px;text-transform:uppercase;color:var(--muted);
-}
-
 /* ─ PLAYER ─ */
 .player{
-  width:48%;flex-shrink:0;
+  flex:1;
   background:var(--ink);border-left:1px solid var(--b1);
   display:flex;flex-direction:column;overflow:hidden;
   transition:width .3s cubic-bezier(.4,0,.2,1);
 }
 .player.narrow{width:0;}
 
-/* player topbar */
 .pl-top{
   height:44px;flex-shrink:0;background:var(--deep);
   border-bottom:1px solid var(--b1);
@@ -221,10 +152,8 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 .pb:hover{background:rgba(255,255,255,0.08);color:var(--txt);border-color:var(--b2);}
 .pb.x:hover{background:rgba(255,77,109,0.1);border-color:rgba(255,77,109,0.3);color:var(--chem);}
 
-/* player content area */
 .pl-body{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 
-/* welcome state */
 .pl-welcome{
   display:flex;flex-direction:column;align-items:center;
   justify-content:center;text-align:center;padding:40px;gap:0;
@@ -240,7 +169,6 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 .pw-hint{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
 .pw-txt{font-size:.88rem;color:var(--muted);line-height:1.7;max-width:280px;}
 
-/* loading state */
 .pl-loading{
   display:none;flex-direction:column;align-items:center;
   justify-content:center;gap:14px;
@@ -251,7 +179,6 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 @keyframes ldspin{to{transform:rotate(360deg);}}
 .ld-txt{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
 
-/* blocked state */
 .pl-blocked{
   display:none;flex-direction:column;align-items:center;
   justify-content:center;gap:16px;text-align:center;padding:30px;
@@ -269,11 +196,9 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 }
 .blk-btn:hover{background:#fff;transform:translateY(-2px);}
 
-/* iframe */
 .pl-frame{position:absolute;inset:0;width:100%;height:100%;border:none;background:#000;display:none;z-index:2;}
 .pl-frame.show{display:block;}
 
-/* ─ statusbar ─ */
 .statusbar{
   height:var(--statusH);flex-shrink:0;
   background:rgba(2,5,9,0.95);border-top:1px solid var(--b1);
@@ -288,19 +213,12 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 #sb-active{color:var(--phys);}
 .sb-right{margin-left:auto;display:flex;align-items:center;gap:16px;}
 
-/* ─ bg canvas ─ */
 #bgc{position:fixed;inset:0;z-index:-1;pointer-events:none;}
 
-/* ─ responsive ─ */
-@media(max-width:960px){
-  :root{--sbW:220px;}
-  .player{width:45%;}
-}
+@media(max-width:960px){:root{--sbW:220px;}}
 @media(max-width:700px){
   .sidebar{display:none;}
-  .player{width:0!important;}
-  .player.show-mobile{width:100%!important;position:absolute;inset:0;z-index:100;}
-  .tb-tabs .tab:not(.on):not([data-s="all"]){display:none;}
+  .player{width:100%!important;}
 }
 </style>
 </head>
@@ -310,10 +228,9 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 <div id="cr2"></div>
 <canvas id="bgc"></canvas>
 
-<!-- ═══ TOPBAR ═══════════════════════════════ -->
 <div class="topbar">
   <a class="logo" href="#">
-    <div class="logo-spin"></div>AXIOM
+    <div class="logo-spin"></div>FUGUG
   </a>
   <div class="tb-search">
     <span>⌕</span>
@@ -330,10 +247,9 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
   <div class="tb-count" id="tbCount">0 sims</div>
 </div>
 
-<!-- ═══ APP BODY ══════════════════════════════ -->
 <div class="app-body">
 
-  <!-- SIDEBAR -->
+  <!-- SIDEBAR ONLY -->
   <aside class="sidebar">
     <div class="sb-head">
       <span class="sb-tag">// simulation index</span>
@@ -342,15 +258,9 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
     <div class="sb-scroll" id="sbScroll"></div>
   </aside>
 
-  <!-- CENTER GRID -->
-  <div class="center">
-    <div class="grid-scroll" id="gridScroll"></div>
-  </div>
-
-  <!-- PLAYER PANEL -->
+  <!-- PLAYER PANEL (now takes full remaining width) -->
   <div class="player" id="player">
 
-    <!-- Welcome -->
     <div class="pl-top" id="plTopWelcome" style="justify-content:center;">
       <span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);">// SELECT A SIMULATION TO BEGIN</span>
     </div>
@@ -364,11 +274,10 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
         </div>
         <div class="pw-title">Simulation Player</div>
         <div class="pw-hint">click any card to launch</div>
-        <p class="pw-txt">Pick a simulation from the grid or sidebar. It runs right here — no new tab, no downloads.</p>
+        <p class="pw-txt">Pick a simulation from the sidebar. It runs right here — no new tab, no downloads.</p>
       </div>
     </div>
 
-    <!-- Active player (hidden until sim selected) -->
     <div class="pl-top" id="plTopActive" style="display:none;">
       <div class="pl-info">
         <div class="pl-nm" id="plName">—</div>
@@ -400,10 +309,9 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 
 </div>
 
-<!-- ═══ STATUSBAR ════════════════════════════ -->
 <div class="statusbar">
   <div class="sb-blink"></div>
-  <span>AXIOM SCIENCE PLATFORM</span>
+  <span>FUGUG SCIENCE PLATFORM</span>
   <div class="sb-div"></div>
   <span>PHET COLORADO</span>
   <div class="sb-div"></div>
@@ -416,241 +324,67 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════
-   DATA
-═══════════════════════════════════════════════════ */
 const SIMS=[
-  /* BIOLOGY */
-  {id:'BIO-01',sub:'bio',ico:'🐰',name:'Natural Selection',
-   tags:['Evolution','Genetics','Population'],level:'Gr 6–12',
-   url:'https://phet.colorado.edu/sims/html/natural-selection/latest/natural-selection_en.html',
-   desc:'Breed rabbit populations through generations. Add wolves, change food supply, flip the climate. Watch traits spread or vanish.'},
-  {id:'BIO-02',sub:'bio',ico:'🧬',name:'Gene Expression Essentials',
-   tags:['DNA','Transcription','Proteins'],level:'Gr 9–UG',
-   url:'https://phet.colorado.edu/sims/html/gene-expression-essentials/latest/gene-expression-essentials_en.html',
-   desc:'Watch transcription factors bind to DNA, trigger RNA polymerase, and synthesize proteins at molecular scale.'},
-  {id:'BIO-03',sub:'bio',ico:'🔬',name:'Membrane Channels',
-   tags:['Ion Channels','Osmosis','Cell Bio'],level:'Gr 9–UG',
-   url:'https://phet.colorado.edu/sims/html/membrane-channels/latest/membrane-channels_en.html',
-   desc:'Gate Na⁺, K⁺, Cl⁻ channels and observe real-time concentration gradients across cell membranes.'},
-  {id:'BIO-04',sub:'bio',ico:'🧠',name:'Neuron',
-   tags:['Action Potential','Axon','Neuro'],level:'Gr 9–UG',
-   url:'https://phet.colorado.edu/sims/html/neuron/latest/neuron_en.html',
-   desc:'Trigger action potentials and watch the wave of depolarization travel down a fully animated axon.'},
-  {id:'BIO-05',sub:'bio',ico:'🏃',name:'Eating & Exercise',
-   tags:['Metabolism','Energy','Body'],level:'Gr 6–10',
-   url:'https://phet.colorado.edu/sims/html/eating-and-exercise/latest/eating-and-exercise_en.html',
-   desc:'Adjust caloric intake and activity type. Observe fat storage, glucose use, and body mass change over time.'},
-  {id:'BIO-06',sub:'bio',ico:'💧',name:'Diffusion',
-   tags:['Osmosis','Concentration','Transport'],level:'Gr 6–9',
-   url:'https://phet.colorado.edu/sims/html/diffusion/latest/diffusion_en.html',
-   desc:'Watch particles diffuse across a membrane. Set concentration gradients and particle mass independently.'},
-
-  /* CHEMISTRY */
-  {id:'CHM-01',sub:'chem',ico:'⚛️',name:'Build an Atom',
-   tags:['Atomic Structure','Protons','Electrons'],level:'Gr 5–10',
-   url:'https://phet.colorado.edu/sims/html/build-an-atom/latest/build-an-atom_en.html',
-   desc:'Drop protons, neutrons, and electrons onto a nucleus. Watch the element name, symbol, and stability update live.'},
-  {id:'CHM-02',sub:'chem',ico:'🔷',name:'Molecule Shapes',
-   tags:['VSEPR','3D Bonds','Geometry'],level:'Gr 9–UG',
-   url:'https://phet.colorado.edu/sims/html/molecule-shapes/latest/molecule-shapes_en.html',
-   desc:'Add bonds and lone pairs. Rotate the fully 3D structure. Predict VSEPR geometry and bond angles.'},
-  {id:'CHM-03',sub:'chem',ico:'🧩',name:'Build a Molecule',
-   tags:['Molecular Formula','Atoms','Bonds'],level:'Gr 5–9',
-   url:'https://phet.colorado.edu/sims/html/build-a-molecule/latest/build-a-molecule_en.html',
-   desc:'Snap real atoms into molecules. Discover the 3D shape and chemical formula of everything you build.'},
-  {id:'CHM-04',sub:'chem',ico:'💨',name:'Gas Properties',
-   tags:['PVT','Boyle\'s Law','Kinetic Theory'],level:'Gr 9–UG',
-   url:'https://phet.colorado.edu/sims/html/gas-properties/latest/gas-properties_en.html',
-   desc:'Pump molecules into a container. Adjust temperature and volume. Observe all four gas laws simultaneously.'},
-  {id:'CHM-05',sub:'chem',ico:'🔵',name:'States of Matter',
-   tags:['Phase Change','Solid','Liquid','Gas'],level:'Gr 5–10',
-   url:'https://phet.colorado.edu/sims/html/states-of-matter/latest/states-of-matter_en.html',
-   desc:'Heat and cool substances to trigger phase transitions. See molecular kinetic energy at each state.'},
-  {id:'CHM-06',sub:'chem',ico:'⚗️',name:'Acid-Base Solutions',
-   tags:['pH','Acids','Bases','Titration'],level:'Gr 9–UG',
-   url:'https://phet.colorado.edu/sims/html/acid-base-solutions/latest/acid-base-solutions_en.html',
-   desc:'Probe solutions with pH meters and conductivity testers. Compare strong vs weak acids at molecular scale.'},
-  {id:'CHM-07',sub:'chem',ico:'💥',name:'Reactions & Rates',
-   tags:['Kinetics','Equilibrium','Activation'],level:'Gr 10–UG',
-   url:'https://phet.colorado.edu/sims/html/reactions-and-rates/latest/reactions-and-rates_en.html',
-   desc:'Control temperature and concentration to adjust reaction rates. Observe activation energy and equilibrium dynamics.'},
-  {id:'CHM-08',sub:'chem',ico:'🌡️',name:'Molarity',
-   tags:['Concentration','Solutions','Moles'],level:'Gr 9–UG',
-   url:'https://phet.colorado.edu/sims/html/molarity/latest/molarity_en.html',
-   desc:'Add solute to a beaker and watch concentration change. Visualize individual molecules in the solution.'},
-  {id:'CHM-09',sub:'chem',ico:'⚖️',name:'Balancing Chemical Equations',
-   tags:['Stoichiometry','Coefficients','Law of Conservation'],level:'Gr 7–10',
-   url:'https://phet.colorado.edu/sims/html/balancing-chemical-equations/latest/balancing-chemical-equations_en.html',
-   desc:'Adjust coefficients until both sides balance. Visual atom counts make the law of conservation tangible.'},
-  {id:'CHM-10',sub:'chem',ico:'🌊',name:'pH Scale',
-   tags:['pH','Acids','Bases','Logarithm'],level:'Gr 7–12',
-   url:'https://phet.colorado.edu/sims/html/ph-scale/latest/ph-scale_en.html',
-   desc:'Test household solutions on the pH scale. Drain, mix, and dilute. Watch the scale update in real time.'},
-  {id:'CHM-11',sub:'chem',ico:'💎',name:'Isotopes & Atomic Mass',
-   tags:['Isotopes','Atomic Mass','Neutrons'],level:'Gr 9–12',
-   url:'https://phet.colorado.edu/sims/html/isotopes-and-atomic-mass/latest/isotopes-and-atomic-mass_en.html',
-   desc:'Change neutron number and see isotope stability, natural abundance, and average atomic mass update live.'},
-  {id:'CHM-12',sub:'chem',ico:'🔋',name:'Sugar & Salt Solutions',
-   tags:['Ions','Electrolytes','Conductivity'],level:'Gr 8–12',
-   url:'https://phet.colorado.edu/sims/html/sugar-and-salt-solutions/latest/sugar-and-salt-solutions_en.html',
-   desc:'Dissolve ionic vs covalent compounds. Test conductivity and see the difference at molecular resolution.'},
-
-  /* PHYSICS */
-  {id:'PHY-01',sub:'phys',ico:'🏋️',name:'Forces & Motion: Basics',
-   tags:['Newton\'s Laws','Friction','Forces'],level:'Gr 4–8',
-   url:'https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_en.html',
-   desc:'Push objects on different surfaces. Watch the free-body diagram update live as friction and mass change.'},
-  {id:'PHY-02',sub:'phys',ico:'🚀',name:'Projectile Motion',
-   tags:['Kinematics','Trajectory','Air Drag'],level:'Gr 7–12',
-   url:'https://phet.colorado.edu/sims/html/projectile-motion/latest/projectile-motion_en.html',
-   desc:'Set angle, speed, mass, and drag. Launch any object and watch the real parabolic path with live equations.'},
-  {id:'PHY-03',sub:'phys',ico:'⚡',name:'Circuit Construction Kit: DC',
-   tags:['Electricity','Ohm\'s Law','Circuits'],level:'Gr 6–UG',
-   url:'https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_en.html',
-   desc:'Drag batteries, resistors, bulbs, and switches onto a board. Probe every node with ammeter and voltmeter.'},
-  {id:'PHY-04',sub:'phys',ico:'〰️',name:'Wave on a String',
-   tags:['Transverse Waves','Frequency','Standing Waves'],level:'Gr 7–12',
-   url:'https://phet.colorado.edu/sims/html/wave-on-a-string/latest/wave-on-a-string_en.html',
-   desc:'Wiggle a string end and send transverse waves. Switch between fixed, loose, and no-end boundaries.'},
-  {id:'PHY-05',sub:'phys',ico:'🔆',name:'Bending Light',
-   tags:['Optics','Refraction','Snell\'s Law'],level:'Gr 9–UG',
-   url:'https://phet.colorado.edu/sims/html/bending-light/latest/bending-light_en.html',
-   desc:'Fire a laser into glass, water, or mystery materials. Measure refraction angles and observe total internal reflection.'},
-  {id:'PHY-06',sub:'phys',ico:'🌌',name:'Quantum Wave Interference',
-   tags:['Quantum','Double-Slit','Photons'],level:'Gr 10–UG',
-   url:'https://phet.colorado.edu/sims/html/quantum-wave-interference/latest/quantum-wave-interference_en.html',
-   desc:'Fire photons or electrons one at a time through a double slit. Watch the interference pattern accumulate.'},
-  {id:'PHY-07',sub:'phys',ico:'🛹',name:'Energy Skate Park',
-   tags:['Energy','Kinetic','Potential','Conservation'],level:'Gr 7–12',
-   url:'https://phet.colorado.edu/sims/html/energy-skate-park/latest/energy-skate-park_en.html',
-   desc:'Draw any track shape. Watch kinetic and potential energy bars update in real time as the skater moves.'},
-  {id:'PHY-08',sub:'phys',ico:'🎯',name:'Pendulum Lab',
-   tags:['Oscillation','Period','Gravity'],level:'Gr 7–UG',
-   url:'https://phet.colorado.edu/sims/html/pendulum-lab/latest/pendulum-lab_en.html',
-   desc:'Adjust length, mass, and gravity. Measure exact period and visualize kinetic/potential energy graphs.'},
-  {id:'PHY-09',sub:'phys',ico:'🧲',name:'Faraday\'s Law',
-   tags:['Magnetism','Induction','EMF'],level:'Gr 9–UG',
-   url:'https://phet.colorado.edu/sims/html/faradays-law/latest/faradays-law_en.html',
-   desc:'Move a magnet through a coil. See the induced EMF and watch a light bulb respond — Faraday visible.'},
-  {id:'PHY-10',sub:'phys',ico:'💡',name:'Ohm\'s Law',
-   tags:['Voltage','Resistance','Current'],level:'Gr 6–10',
-   url:'https://phet.colorado.edu/sims/html/ohms-law/latest/ohms-law_en.html',
-   desc:'Slide voltage and resistance sliders. Watch current respond and the equation scale live.'},
-  {id:'PHY-11',sub:'phys',ico:'🔊',name:'Wave Interference',
-   tags:['Sound','Light','Diffraction','Superposition'],level:'Gr 9–UG',
-   url:'https://phet.colorado.edu/sims/html/wave-interference/latest/wave-interference_en.html',
-   desc:'Create water, sound, and light waves from one or two sources. Observe interference patterns instantly.'},
-  {id:'PHY-12',sub:'phys',ico:'🎻',name:'Fourier: Making Waves',
-   tags:['Harmonics','Fourier','Waveforms'],level:'Gr 10–UG',
-   url:'https://phet.colorado.edu/sims/html/fourier-making-waves/latest/fourier-making-waves_en.html',
-   desc:'Stack harmonics to build any periodic waveform. Explore the math of Fourier decomposition visually.'},
-  {id:'PHY-13',sub:'phys',ico:'⚾',name:'Collision Lab',
-   tags:['Momentum','Elastic','Inelastic'],level:'Gr 8–12',
-   url:'https://phet.colorado.edu/sims/html/collision-lab/latest/collision-lab_en.html',
-   desc:'Run 1D and 2D collisions. Compare momentum before and after. Adjust elasticity from perfectly elastic to perfectly inelastic.'},
-  {id:'PHY-14',sub:'phys',ico:'🎈',name:'Gravity Force Lab',
-   tags:['Universal Gravitation','Mass','Distance'],level:'Gr 7–UG',
-   url:'https://phet.colorado.edu/sims/html/gravity-force-lab/latest/gravity-force-lab_en.html',
-   desc:'Vary two masses and their separation. Watch gravitational force arrows scale with Newton\'s formula.'},
-  {id:'PHY-15',sub:'phys',ico:'📸',name:'Photoelectric Effect',
-   tags:['Quantum','Photons','Electrons'],level:'Gr 10–UG',
-   url:'https://phet.colorado.edu/sims/html/photoelectric-effect/latest/photoelectric-effect_en.html',
-   desc:'Shine light on a metal surface. Observe threshold frequency and measure emitted electron energies.'},
-  {id:'PHY-16',sub:'phys',ico:'🏄',name:'Under Pressure',
-   tags:['Fluid Statics','Pascal\'s Law','Depth'],level:'Gr 7–12',
-   url:'https://phet.colorado.edu/sims/html/under-pressure/latest/under-pressure_en.html',
-   desc:'Explore hydrostatic pressure at rest. Compare pressure in water vs honey vs gasoline at different depths.'},
-  {id:'PHY-17',sub:'phys',ico:'🌡️',name:'Energy Forms & Changes',
-   tags:['Thermal Energy','Heat Transfer','Thermodynamics'],level:'Gr 6–10',
-   url:'https://phet.colorado.edu/sims/html/energy-forms-and-changes/latest/energy-forms-and-changes_en.html',
-   desc:'Convert between mechanical, electrical, thermal, and light energy. Watch energy flow through systems.'},
-
-  /* EARTH SCIENCE */
-  {id:'ERT-01',sub:'earth',ico:'🌋',name:'Plate Tectonics',
-   tags:['Tectonic Plates','Volcanoes','Earthquakes'],level:'Gr 6–12',
-   url:'https://phet.colorado.edu/sims/html/plate-tectonics/latest/plate-tectonics_en.html',
-   desc:'Drag crustal plates to create subduction zones, rift valleys, mountain ranges, and oceanic trenches.'},
-  {id:'ERT-02',sub:'earth',ico:'🪐',name:'Gravity & Orbits',
-   tags:['Kepler\'s Laws','Orbital Mechanics','Planets'],level:'Gr 5–12',
-   url:'https://phet.colorado.edu/sims/html/gravity-and-orbits/latest/gravity-and-orbits_en.html',
-   desc:'Adjust masses and distances. Watch orbital paths trace and verify all three of Kepler\'s Laws in real time.'},
-  {id:'ERT-03',sub:'earth',ico:'🌡️',name:'Greenhouse Effect',
-   tags:['CO₂','Climate','Radiation','Atmosphere'],level:'Gr 5–12',
-   url:'https://phet.colorado.edu/sims/html/greenhouse-effect/latest/greenhouse-effect_en.html',
-   desc:'Control greenhouse gas levels and cloud cover. Watch photons absorbed and temperature respond globally.'},
-  {id:'ERT-04',sub:'earth',ico:'🌍',name:'My Solar System',
-   tags:['Solar System','N-Body','Gravity'],level:'Gr 5–12',
-   url:'https://phet.colorado.edu/sims/html/my-solar-system/latest/my-solar-system_en.html',
-   desc:'Build multi-body solar systems with adjustable masses and initial velocities. Watch stability emerge.'},
-  {id:'ERT-05',sub:'earth',ico:'🌞',name:'Seasons',
-   tags:['Axial Tilt','Sunlight','Hemispheres'],level:'Gr 3–8',
-   url:'https://phet.colorado.edu/sims/html/seasons/latest/seasons_en.html',
-   desc:'Orbit Earth around the Sun. See how axial tilt — not distance — causes seasonal temperature differences.'},
-  {id:'ERT-06',sub:'earth',ico:'☢️',name:'Radioactive Dating Game',
-   tags:['Half-Life','Isotopes','Decay'],level:'Gr 9–12',
-   url:'https://phet.colorado.edu/sims/html/radioactive-dating-game/latest/radioactive-dating-game_en.html',
-   desc:'Simulate decay of multiple isotope systems to determine the age of rock and organic samples.'},
-  {id:'ERT-07',sub:'earth',ico:'💧',name:'Water on Mars',
-   tags:['Mars','Erosion','Geology'],level:'Gr 5–10',
-   url:'https://phet.colorado.edu/en/simulations/filter?subjects=earth-and-space&type=html',
-   desc:'Explore all Earth & Space science simulations including water cycles, erosion, and planetary geology.'},
-
-  /* MATH */
-  {id:'MTH-01',sub:'math',ico:'📈',name:'Graphing Lines',
-   tags:['Slope','Y-intercept','Linear'],level:'Gr 7–9',
-   url:'https://phet.colorado.edu/sims/html/graphing-lines/latest/graphing-lines_en.html',
-   desc:'Drag the line or enter slope-intercept form. See slope and y-intercept link equation to graph instantly.'},
-  {id:'MTH-02',sub:'math',ico:'∫',name:'Calculus Grapher',
-   tags:['Derivatives','Integrals','Functions'],level:'Gr 11–UG',
-   url:'https://phet.colorado.edu/sims/html/calculus-grapher/latest/calculus-grapher_en.html',
-   desc:'Draw any function curve. The derivative and integral are shown simultaneously — calculus made visual.'},
-  {id:'MTH-03',sub:'math',ico:'🎲',name:'Plinko Probability',
-   tags:['Probability','Normal Distribution','Statistics'],level:'Gr 6–12',
-   url:'https://phet.colorado.edu/sims/html/plinko-probability/latest/plinko-probability_en.html',
-   desc:'Drop balls through a Galton board. Watch the normal distribution emerge from random left/right decisions.'},
-  {id:'MTH-04',sub:'math',ico:'📐',name:'Area Model Algebra',
-   tags:['Multiplication','Factoring','Area'],level:'Gr 4–9',
-   url:'https://phet.colorado.edu/sims/html/area-model-algebra/latest/area-model-algebra_en.html',
-   desc:'Multiply and factor using geometric area models. Connect the abstract algebra to tangible rectangle areas.'},
-  {id:'MTH-05',sub:'math',ico:'📊',name:'Graphing Quadratics',
-   tags:['Parabola','Vertex','Roots'],level:'Gr 8–11',
-   url:'https://phet.colorado.edu/sims/html/graphing-quadratics/latest/graphing-quadratics_en.html',
-   desc:'Slide a, b, c coefficients and watch the parabola transform. Vertex, axis of symmetry, roots all live.'},
-  {id:'MTH-06',sub:'math',ico:'🔄',name:'Trig Tour',
-   tags:['Trigonometry','Unit Circle','Sine','Cosine'],level:'Gr 9–12',
-   url:'https://phet.colorado.edu/sims/html/trig-tour/latest/trig-tour_en.html',
-   desc:'Rotate around the unit circle and watch sin, cos, tan graphs trace out in real time simultaneously.'},
-  {id:'MTH-07',sub:'math',ico:'🗺️',name:'Vector Addition',
-   tags:['Vectors','Components','Resultant'],level:'Gr 9–12',
-   url:'https://phet.colorado.edu/sims/html/vector-addition/latest/vector-addition_en.html',
-   desc:'Add 2D vectors graphically and algebraically. See components, magnitude, and resultant update together.'},
-  {id:'MTH-08',sub:'math',ico:'🔁',name:'Function Builder',
-   tags:['Functions','Input/Output','Algebra'],level:'Gr 6–10',
-   url:'https://phet.colorado.edu/sims/html/function-builder/latest/function-builder_en.html',
-   desc:'Chain mathematical function machines. Feed inputs and discover the algebraic output pattern.'},
-  {id:'MTH-09',sub:'math',ico:'⚖️',name:'Equality Explorer',
-   tags:['Equations','Balance','Algebra'],level:'Gr 5–9',
-   url:'https://phet.colorado.edu/sims/html/equality-explorer/latest/equality-explorer_en.html',
-   desc:'Balance an equation on a scale. Drag objects and variables to explore the properties of equality.'},
-  {id:'MTH-10',sub:'math',ico:'🍕',name:'Fractions: Intro',
-   tags:['Fractions','Parts','Whole'],level:'Gr 2–6',
-   url:'https://phet.colorado.edu/sims/html/fractions-intro/latest/fractions-intro_en.html',
-   desc:'Build fractions with circles, bars, and water pitchers. Compare and match fraction representations.'},
+  {id:'BIO-01',sub:'bio',ico:'🐰',name:'Natural Selection',tags:['Evolution','Genetics','Population'],level:'Gr 6–12',url:'https://phet.colorado.edu/sims/html/natural-selection/latest/natural-selection_en.html',desc:'Breed rabbit populations through generations. Add wolves, change food supply, flip the climate. Watch traits spread or vanish.'},
+  {id:'BIO-02',sub:'bio',ico:'🧬',name:'Gene Expression Essentials',tags:['DNA','Transcription','Proteins'],level:'Gr 9–UG',url:'https://phet.colorado.edu/sims/html/gene-expression-essentials/latest/gene-expression-essentials_en.html',desc:'Watch transcription factors bind to DNA, trigger RNA polymerase, and synthesize proteins at molecular scale.'},
+  {id:'BIO-03',sub:'bio',ico:'🔬',name:'Membrane Channels',tags:['Ion Channels','Osmosis','Cell Bio'],level:'Gr 9–UG',url:'https://phet.colorado.edu/sims/html/membrane-channels/latest/membrane-channels_en.html',desc:'Gate Na⁺, K⁺, Cl⁻ channels and observe real-time concentration gradients across cell membranes.'},
+  {id:'BIO-04',sub:'bio',ico:'🧠',name:'Neuron',tags:['Action Potential','Axon','Neuro'],level:'Gr 9–UG',url:'https://phet.colorado.edu/sims/html/neuron/latest/neuron_en.html',desc:'Trigger action potentials and watch the wave of depolarization travel down a fully animated axon.'},
+  {id:'BIO-05',sub:'bio',ico:'🏃',name:'Eating & Exercise',tags:['Metabolism','Energy','Body'],level:'Gr 6–10',url:'https://phet.colorado.edu/sims/html/eating-and-exercise/latest/eating-and-exercise_en.html',desc:'Adjust caloric intake and activity type. Observe fat storage, glucose use, and body mass change over time.'},
+  {id:'BIO-06',sub:'bio',ico:'💧',name:'Diffusion',tags:['Osmosis','Concentration','Transport'],level:'Gr 6–9',url:'https://phet.colorado.edu/sims/html/diffusion/latest/diffusion_en.html',desc:'Watch particles diffuse across a membrane. Set concentration gradients and particle mass independently.'},
+  {id:'CHM-01',sub:'chem',ico:'⚛️',name:'Build an Atom',tags:['Atomic Structure','Protons','Electrons'],level:'Gr 5–10',url:'https://phet.colorado.edu/sims/html/build-an-atom/latest/build-an-atom_en.html',desc:'Drop protons, neutrons, and electrons onto a nucleus. Watch the element name, symbol, and stability update live.'},
+  {id:'CHM-02',sub:'chem',ico:'🔷',name:'Molecule Shapes',tags:['VSEPR','3D Bonds','Geometry'],level:'Gr 9–UG',url:'https://phet.colorado.edu/sims/html/molecule-shapes/latest/molecule-shapes_en.html',desc:'Add bonds and lone pairs. Rotate the fully 3D structure. Predict VSEPR geometry and bond angles.'},
+  {id:'CHM-03',sub:'chem',ico:'🧩',name:'Build a Molecule',tags:['Molecular Formula','Atoms','Bonds'],level:'Gr 5–9',url:'https://phet.colorado.edu/sims/html/build-a-molecule/latest/build-a-molecule_en.html',desc:'Snap real atoms into molecules. Discover the 3D shape and chemical formula of everything you build.'},
+  {id:'CHM-04',sub:'chem',ico:'💨',name:'Gas Properties',tags:['PVT',"Boyle's Law",'Kinetic Theory'],level:'Gr 9–UG',url:'https://phet.colorado.edu/sims/html/gas-properties/latest/gas-properties_en.html',desc:'Pump molecules into a container. Adjust temperature and volume. Observe all four gas laws simultaneously.'},
+  {id:'CHM-05',sub:'chem',ico:'🔵',name:'States of Matter',tags:['Phase Change','Solid','Liquid','Gas'],level:'Gr 5–10',url:'https://phet.colorado.edu/sims/html/states-of-matter/latest/states-of-matter_en.html',desc:'Heat and cool substances to trigger phase transitions. See molecular kinetic energy at each state.'},
+  {id:'CHM-06',sub:'chem',ico:'⚗️',name:'Acid-Base Solutions',tags:['pH','Acids','Bases','Titration'],level:'Gr 9–UG',url:'https://phet.colorado.edu/sims/html/acid-base-solutions/latest/acid-base-solutions_en.html',desc:'Probe solutions with pH meters and conductivity testers. Compare strong vs weak acids at molecular scale.'},
+  {id:'CHM-07',sub:'chem',ico:'💥',name:'Reactions & Rates',tags:['Kinetics','Equilibrium','Activation'],level:'Gr 10–UG',url:'https://phet.colorado.edu/sims/html/reactions-and-rates/latest/reactions-and-rates_en.html',desc:'Control temperature and concentration to adjust reaction rates. Observe activation energy and equilibrium dynamics.'},
+  {id:'CHM-08',sub:'chem',ico:'🌡️',name:'Molarity',tags:['Concentration','Solutions','Moles'],level:'Gr 9–UG',url:'https://phet.colorado.edu/sims/html/molarity/latest/molarity_en.html',desc:'Add solute to a beaker and watch concentration change. Visualize individual molecules in the solution.'},
+  {id:'CHM-09',sub:'chem',ico:'⚖️',name:'Balancing Chemical Equations',tags:['Stoichiometry','Coefficients','Law of Conservation'],level:'Gr 7–10',url:'https://phet.colorado.edu/sims/html/balancing-chemical-equations/latest/balancing-chemical-equations_en.html',desc:'Adjust coefficients until both sides balance. Visual atom counts make the law of conservation tangible.'},
+  {id:'CHM-10',sub:'chem',ico:'🌊',name:'pH Scale',tags:['pH','Acids','Bases','Logarithm'],level:'Gr 7–12',url:'https://phet.colorado.edu/sims/html/ph-scale/latest/ph-scale_en.html',desc:'Test household solutions on the pH scale. Drain, mix, and dilute. Watch the scale update in real time.'},
+  {id:'CHM-11',sub:'chem',ico:'💎',name:'Isotopes & Atomic Mass',tags:['Isotopes','Atomic Mass','Neutrons'],level:'Gr 9–12',url:'https://phet.colorado.edu/sims/html/isotopes-and-atomic-mass/latest/isotopes-and-atomic-mass_en.html',desc:'Change neutron number and see isotope stability, natural abundance, and average atomic mass update live.'},
+  {id:'CHM-12',sub:'chem',ico:'🔋',name:'Sugar & Salt Solutions',tags:['Ions','Electrolytes','Conductivity'],level:'Gr 8–12',url:'https://phet.colorado.edu/sims/html/sugar-and-salt-solutions/latest/sugar-and-salt-solutions_en.html',desc:'Dissolve ionic vs covalent compounds. Test conductivity and see the difference at molecular resolution.'},
+  {id:'PHY-01',sub:'phys',ico:'🏋️',name:'Forces & Motion: Basics',tags:["Newton's Laws",'Friction','Forces'],level:'Gr 4–8',url:'https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_en.html',desc:'Push objects on different surfaces. Watch the free-body diagram update live as friction and mass change.'},
+  {id:'PHY-02',sub:'phys',ico:'🚀',name:'Projectile Motion',tags:['Kinematics','Trajectory','Air Drag'],level:'Gr 7–12',url:'https://phet.colorado.edu/sims/html/projectile-motion/latest/projectile-motion_en.html',desc:'Set angle, speed, mass, and drag. Launch any object and watch the real parabolic path with live equations.'},
+  {id:'PHY-03',sub:'phys',ico:'⚡',name:'Circuit Construction Kit: DC',tags:['Electricity',"Ohm's Law",'Circuits'],level:'Gr 6–UG',url:'https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_en.html',desc:'Drag batteries, resistors, bulbs, and switches onto a board. Probe every node with ammeter and voltmeter.'},
+  {id:'PHY-04',sub:'phys',ico:'〰️',name:'Wave on a String',tags:['Transverse Waves','Frequency','Standing Waves'],level:'Gr 7–12',url:'https://phet.colorado.edu/sims/html/wave-on-a-string/latest/wave-on-a-string_en.html',desc:'Wiggle a string end and send transverse waves. Switch between fixed, loose, and no-end boundaries.'},
+  {id:'PHY-05',sub:'phys',ico:'🔆',name:'Bending Light',tags:['Optics','Refraction',"Snell's Law"],level:'Gr 9–UG',url:'https://phet.colorado.edu/sims/html/bending-light/latest/bending-light_en.html',desc:'Fire a laser into glass, water, or mystery materials. Measure refraction angles and observe total internal reflection.'},
+  {id:'PHY-06',sub:'phys',ico:'🌌',name:'Quantum Wave Interference',tags:['Quantum','Double-Slit','Photons'],level:'Gr 10–UG',url:'https://phet.colorado.edu/sims/html/quantum-wave-interference/latest/quantum-wave-interference_en.html',desc:'Fire photons or electrons one at a time through a double slit. Watch the interference pattern accumulate.'},
+  {id:'PHY-07',sub:'phys',ico:'🛹',name:'Energy Skate Park',tags:['Energy','Kinetic','Potential','Conservation'],level:'Gr 7–12',url:'https://phet.colorado.edu/sims/html/energy-skate-park/latest/energy-skate-park_en.html',desc:'Draw any track shape. Watch kinetic and potential energy bars update in real time as the skater moves.'},
+  {id:'PHY-08',sub:'phys',ico:'🎯',name:'Pendulum Lab',tags:['Oscillation','Period','Gravity'],level:'Gr 7–UG',url:'https://phet.colorado.edu/sims/html/pendulum-lab/latest/pendulum-lab_en.html',desc:'Adjust length, mass, and gravity. Measure exact period and visualize kinetic/potential energy graphs.'},
+  {id:'PHY-09',sub:'phys',ico:'🧲',name:"Faraday's Law",tags:['Magnetism','Induction','EMF'],level:'Gr 9–UG',url:'https://phet.colorado.edu/sims/html/faradays-law/latest/faradays-law_en.html',desc:'Move a magnet through a coil. See the induced EMF and watch a light bulb respond — Faraday visible.'},
+  {id:'PHY-10',sub:'phys',ico:'💡',name:"Ohm's Law",tags:['Voltage','Resistance','Current'],level:'Gr 6–10',url:'https://phet.colorado.edu/sims/html/ohms-law/latest/ohms-law_en.html',desc:'Slide voltage and resistance sliders. Watch current respond and the equation scale live.'},
+  {id:'PHY-11',sub:'phys',ico:'🔊',name:'Wave Interference',tags:['Sound','Light','Diffraction','Superposition'],level:'Gr 9–UG',url:'https://phet.colorado.edu/sims/html/wave-interference/latest/wave-interference_en.html',desc:'Create water, sound, and light waves from one or two sources. Observe interference patterns instantly.'},
+  {id:'PHY-12',sub:'phys',ico:'🎻',name:'Fourier: Making Waves',tags:['Harmonics','Fourier','Waveforms'],level:'Gr 10–UG',url:'https://phet.colorado.edu/sims/html/fourier-making-waves/latest/fourier-making-waves_en.html',desc:'Stack harmonics to build any periodic waveform. Explore the math of Fourier decomposition visually.'},
+  {id:'PHY-13',sub:'phys',ico:'⚾',name:'Collision Lab',tags:['Momentum','Elastic','Inelastic'],level:'Gr 8–12',url:'https://phet.colorado.edu/sims/html/collision-lab/latest/collision-lab_en.html',desc:'Run 1D and 2D collisions. Compare momentum before and after. Adjust elasticity from perfectly elastic to perfectly inelastic.'},
+  {id:'PHY-14',sub:'phys',ico:'🎈',name:'Gravity Force Lab',tags:['Universal Gravitation','Mass','Distance'],level:'Gr 7–UG',url:'https://phet.colorado.edu/sims/html/gravity-force-lab/latest/gravity-force-lab_en.html',desc:"Vary two masses and their separation. Watch gravitational force arrows scale with Newton's formula."},
+  {id:'PHY-15',sub:'phys',ico:'📸',name:'Photoelectric Effect',tags:['Quantum','Photons','Electrons'],level:'Gr 10–UG',url:'https://phet.colorado.edu/sims/html/photoelectric-effect/latest/photoelectric-effect_en.html',desc:'Shine light on a metal surface. Observe threshold frequency and measure emitted electron energies.'},
+  {id:'PHY-16',sub:'phys',ico:'🏄',name:'Under Pressure',tags:['Fluid Statics',"Pascal's Law",'Depth'],level:'Gr 7–12',url:'https://phet.colorado.edu/sims/html/under-pressure/latest/under-pressure_en.html',desc:'Explore hydrostatic pressure at rest. Compare pressure in water vs honey vs gasoline at different depths.'},
+  {id:'PHY-17',sub:'phys',ico:'🌡️',name:'Energy Forms & Changes',tags:['Thermal Energy','Heat Transfer','Thermodynamics'],level:'Gr 6–10',url:'https://phet.colorado.edu/sims/html/energy-forms-and-changes/latest/energy-forms-and-changes_en.html',desc:'Convert between mechanical, electrical, thermal, and light energy. Watch energy flow through systems.'},
+  {id:'ERT-01',sub:'earth',ico:'🌋',name:'Plate Tectonics',tags:['Tectonic Plates','Volcanoes','Earthquakes'],level:'Gr 6–12',url:'https://phet.colorado.edu/sims/html/plate-tectonics/latest/plate-tectonics_en.html',desc:'Drag crustal plates to create subduction zones, rift valleys, mountain ranges, and oceanic trenches.'},
+  {id:'ERT-02',sub:'earth',ico:'🪐',name:'Gravity & Orbits',tags:["Kepler's Laws",'Orbital Mechanics','Planets'],level:'Gr 5–12',url:'https://phet.colorado.edu/sims/html/gravity-and-orbits/latest/gravity-and-orbits_en.html',desc:"Adjust masses and distances. Watch orbital paths trace and verify all three of Kepler's Laws in real time."},
+  {id:'ERT-03',sub:'earth',ico:'🌡️',name:'Greenhouse Effect',tags:['CO₂','Climate','Radiation','Atmosphere'],level:'Gr 5–12',url:'https://phet.colorado.edu/sims/html/greenhouse-effect/latest/greenhouse-effect_en.html',desc:'Control greenhouse gas levels and cloud cover. Watch photons absorbed and temperature respond globally.'},
+  {id:'ERT-04',sub:'earth',ico:'🌍',name:'My Solar System',tags:['Solar System','N-Body','Gravity'],level:'Gr 5–12',url:'https://phet.colorado.edu/sims/html/my-solar-system/latest/my-solar-system_en.html',desc:'Build multi-body solar systems with adjustable masses and initial velocities. Watch stability emerge.'},
+  {id:'ERT-05',sub:'earth',ico:'🌞',name:'Seasons',tags:['Axial Tilt','Sunlight','Hemispheres'],level:'Gr 3–8',url:'https://phet.colorado.edu/sims/html/seasons/latest/seasons_en.html',desc:'Orbit Earth around the Sun. See how axial tilt — not distance — causes seasonal temperature differences.'},
+  {id:'ERT-06',sub:'earth',ico:'☢️',name:'Radioactive Dating Game',tags:['Half-Life','Isotopes','Decay'],level:'Gr 9–12',url:'https://phet.colorado.edu/sims/html/radioactive-dating-game/latest/radioactive-dating-game_en.html',desc:'Simulate decay of multiple isotope systems to determine the age of rock and organic samples.'},
+  {id:'ERT-07',sub:'earth',ico:'💧',name:'Water on Mars',tags:['Mars','Erosion','Geology'],level:'Gr 5–10',url:'https://phet.colorado.edu/en/simulations/filter?subjects=earth-and-space&type=html',desc:'Explore all Earth & Space science simulations including water cycles, erosion, and planetary geology.'},
+  {id:'MTH-01',sub:'math',ico:'📈',name:'Graphing Lines',tags:['Slope','Y-intercept','Linear'],level:'Gr 7–9',url:'https://phet.colorado.edu/sims/html/graphing-lines/latest/graphing-lines_en.html',desc:'Drag the line or enter slope-intercept form. See slope and y-intercept link equation to graph instantly.'},
+  {id:'MTH-02',sub:'math',ico:'∫',name:'Calculus Grapher',tags:['Derivatives','Integrals','Functions'],level:'Gr 11–UG',url:'https://phet.colorado.edu/sims/html/calculus-grapher/latest/calculus-grapher_en.html',desc:'Draw any function curve. The derivative and integral are shown simultaneously — calculus made visual.'},
+  {id:'MTH-03',sub:'math',ico:'🎲',name:'Plinko Probability',tags:['Probability','Normal Distribution','Statistics'],level:'Gr 6–12',url:'https://phet.colorado.edu/sims/html/plinko-probability/latest/plinko-probability_en.html',desc:'Drop balls through a Galton board. Watch the normal distribution emerge from random left/right decisions.'},
+  {id:'MTH-04',sub:'math',ico:'📐',name:'Area Model Algebra',tags:['Multiplication','Factoring','Area'],level:'Gr 4–9',url:'https://phet.colorado.edu/sims/html/area-model-algebra/latest/area-model-algebra_en.html',desc:'Multiply and factor using geometric area models. Connect the abstract algebra to tangible rectangle areas.'},
+  {id:'MTH-05',sub:'math',ico:'📊',name:'Graphing Quadratics',tags:['Parabola','Vertex','Roots'],level:'Gr 8–11',url:'https://phet.colorado.edu/sims/html/graphing-quadratics/latest/graphing-quadratics_en.html',desc:'Slide a, b, c coefficients and watch the parabola transform. Vertex, axis of symmetry, roots all live.'},
+  {id:'MTH-06',sub:'math',ico:'🔄',name:'Trig Tour',tags:['Trigonometry','Unit Circle','Sine','Cosine'],level:'Gr 9–12',url:'https://phet.colorado.edu/sims/html/trig-tour/latest/trig-tour_en.html',desc:'Rotate around the unit circle and watch sin, cos, tan graphs trace out in real time simultaneously.'},
+  {id:'MTH-07',sub:'math',ico:'🗺️',name:'Vector Addition',tags:['Vectors','Components','Resultant'],level:'Gr 9–12',url:'https://phet.colorado.edu/sims/html/vector-addition/latest/vector-addition_en.html',desc:'Add 2D vectors graphically and algebraically. See components, magnitude, and resultant update together.'},
+  {id:'MTH-08',sub:'math',ico:'🔁',name:'Function Builder',tags:['Functions','Input/Output','Algebra'],level:'Gr 6–10',url:'https://phet.colorado.edu/sims/html/function-builder/latest/function-builder_en.html',desc:'Chain mathematical function machines. Feed inputs and discover the algebraic output pattern.'},
+  {id:'MTH-09',sub:'math',ico:'⚖️',name:'Equality Explorer',tags:['Equations','Balance','Algebra'],level:'Gr 5–9',url:'https://phet.colorado.edu/sims/html/equality-explorer/latest/equality-explorer_en.html',desc:'Balance an equation on a scale. Drag objects and variables to explore the properties of equality.'},
+  {id:'MTH-10',sub:'math',ico:'🍕',name:'Fractions: Intro',tags:['Fractions','Parts','Whole'],level:'Gr 2–6',url:'https://phet.colorado.edu/sims/html/fractions-intro/latest/fractions-intro_en.html',desc:'Build fractions with circles, bars, and water pitchers. Compare and match fraction representations.'},
 ];
 
-/* ═══════════════════════════════════════════════════
-   CONSTANTS & STATE
-═══════════════════════════════════════════════════ */
 const C={bio:'#00ffaa',chem:'#ff4d6d',phys:'#3d9bff',earth:'#ffb347',math:'#c97bff'};
 const L={bio:'Biology',chem:'Chemistry',phys:'Physics',earth:'Earth Science',math:'Math & Statistics'};
 const I={bio:'🧬',chem:'⚗️',phys:'⚡',earth:'🌍',math:'∑'};
 
 let activeSub='all', activeSearch='', activeSim=null;
 
-/* ═══════════════════════════════════════════════════
-   SIDEBAR
-═══════════════════════════════════════════════════ */
 function buildSidebar(){
   const wrap=document.getElementById('sbScroll');
   wrap.innerHTML='';
@@ -667,8 +401,7 @@ function buildSidebar(){
       </div>
       <div class="sg-sims">
         ${sims.map(s=>`
-          <div class="ss" id="ss-${s.id}" data-id="${s.id}"
-               style="--ssc:${C[s.sub]}">
+          <div class="ss" id="ss-${s.id}" data-id="${s.id}">
             <span class="ss-name">${s.name}</span>
             <span class="ss-lv">${s.level}</span>
           </div>`).join('')}
@@ -677,7 +410,6 @@ function buildSidebar(){
   });
 }
 
-/* group toggle */
 document.getElementById('sbScroll').addEventListener('click',e=>{
   const hdr=e.target.closest('.sg-hdr');
   if(hdr) hdr.closest('.sg').classList.toggle('open');
@@ -685,79 +417,45 @@ document.getElementById('sbScroll').addEventListener('click',e=>{
   if(ss) launchSim(ss.dataset.id);
 });
 
-/* ═══════════════════════════════════════════════════
-   GRID
-═══════════════════════════════════════════════════ */
-function buildGrid(){
-  const wrap=document.getElementById('gridScroll');
+/* ─ filter sidebar by search/tab ─ */
+function filterSidebar(){
   const q=activeSearch.toLowerCase();
-  let list=SIMS.filter(s=>{
+  document.querySelectorAll('.sg').forEach(grp=>{
+    const sub=grp.querySelector('.sg-hdr').dataset.grp;
+    const matchSub=activeSub==='all'||activeSub===sub;
+    let visCount=0;
+    grp.querySelectorAll('.ss').forEach(ss=>{
+      const sim=SIMS.find(s=>s.id===ss.dataset.id);
+      const matchQ=!q||(sim.name+sim.desc+sim.tags.join('')).toLowerCase().includes(q);
+      const show=matchSub&&matchQ;
+      ss.style.display=show?'':'none';
+      if(show) visCount++;
+    });
+    grp.style.display=matchSub&&visCount>0?'':'none';
+    grp.querySelector('.sg-n').textContent=visCount;
+  });
+  const total=SIMS.filter(s=>{
     const matchSub=activeSub==='all'||s.sub===activeSub;
-    const matchQ=!q||(s.name+s.desc+s.tags.join('')+L[s.sub]).toLowerCase().includes(q);
+    const matchQ=!q||(s.name+s.desc+s.tags.join('')).toLowerCase().includes(q);
     return matchSub&&matchQ;
-  });
-
-  document.getElementById('tbCount').textContent=list.length+' sims';
-  document.getElementById('sb-cnt').textContent=list.length+' SIMS';
-
-  if(!list.length){
-    wrap.innerHTML=`<div class="no-res">// no results for "${activeSearch}"</div>`;
-    return;
-  }
-
-  const groups=activeSub==='all'?['bio','chem','phys','earth','math']:[activeSub];
-  let html='';
-  groups.forEach(sub=>{
-    const grp=list.filter(s=>s.sub===sub);
-    if(!grp.length) return;
-    html+=`
-      <div class="sec-hdr" style="color:${C[sub]}">
-        ${I[sub]} ${L[sub]} <em>${grp.length} sims</em>
-      </div>
-      <div class="cards-grid">
-        ${grp.map(s=>`
-          <div class="sc${activeSim===s.id?' on':''}"
-               data-id="${s.id}"
-               style="--cc:${C[s.sub]}">
-            <div class="sc-top">
-              <div class="sc-ico">${s.ico}</div>
-              <div>
-                <span class="sc-id">${s.id}</span>
-                <div class="sc-nm">${s.name}</div>
-              </div>
-            </div>
-            <div class="sc-ds">${s.desc}</div>
-            <div class="sc-tags">${s.tags.slice(0,3).map(t=>`<span class="sc-tag">${t}</span>`).join('')}</div>
-            <div class="sc-play">${activeSim===s.id?'■':'▶'}</div>
-            ${activeSim===s.id?`<div class="sc-live">● live</div>`:''}
-          </div>`).join('')}
-      </div>`;
-  });
-  wrap.innerHTML=html;
+  }).length;
+  document.getElementById('tbCount').textContent=total+' sims';
+  document.getElementById('sb-cnt').textContent=total+' SIMS';
 }
 
-/* grid click via delegation */
-document.getElementById('gridScroll').addEventListener('click',e=>{
-  const card=e.target.closest('.sc');
-  if(card) launchSim(card.dataset.id);
-});
-
-/* ═══════════════════════════════════════════════════
-   PLAYER
-═══════════════════════════════════════════════════ */
-const player      =document.getElementById('player');
+/* ─ player ─ */
+const player=document.getElementById('player');
 const plTopWelcome=document.getElementById('plTopWelcome');
 const plBodyWelcome=document.getElementById('plBodyWelcome');
-const plTopActive =document.getElementById('plTopActive');
+const plTopActive=document.getElementById('plTopActive');
 const plBodyActive=document.getElementById('plBodyActive');
-const plLoad      =document.getElementById('plLoad');
-const plBlocked   =document.getElementById('plBlocked');
-const plFrame     =document.getElementById('plFrame');
-const plName      =document.getElementById('plName');
-const plSub       =document.getElementById('plSub');
-const btnOpen     =document.getElementById('btnOpen');
-const blkLink     =document.getElementById('blkLink');
-
+const plLoad=document.getElementById('plLoad');
+const plBlocked=document.getElementById('plBlocked');
+const plFrame=document.getElementById('plFrame');
+const plName=document.getElementById('plName');
+const plSub=document.getElementById('plSub');
+const btnOpen=document.getElementById('btnOpen');
+const blkLink=document.getElementById('blkLink');
 let loadTimer=null;
 
 function showWelcome(){
@@ -765,7 +463,6 @@ function showWelcome(){
   plBodyWelcome.style.display='flex';
   plTopActive.style.display='none';
   plBodyActive.style.display='none';
-  player.classList.remove('narrow');
 }
 
 function showPlayer(sim){
@@ -773,49 +470,36 @@ function showPlayer(sim){
   plBodyWelcome.style.display='none';
   plTopActive.style.display='flex';
   plBodyActive.style.display='flex';
-  player.classList.remove('narrow');
-
   plName.textContent=sim.name;
   plSub.textContent=`${I[sim.sub]} ${L[sim.sub]}  ·  ${sim.level}`;
   plSub.style.color=C[sim.sub];
   btnOpen.href=sim.url;
   blkLink.href=sim.url;
-
-  /* reset states */
   plLoad.classList.add('show');
   plBlocked.classList.remove('show');
   plFrame.classList.remove('show');
   plFrame.src='';
-
   clearTimeout(loadTimer);
-
-  /* small delay lets CSS transition finish before heavy load */
   setTimeout(()=>{
     plFrame.src=sim.url;
-
     plFrame.onload=()=>{
       clearTimeout(loadTimer);
-      /* onload fired — sim is in the frame, show it */
       plLoad.classList.remove('show');
       plBlocked.classList.remove('show');
       plFrame.classList.add('show');
     };
-
     plFrame.onerror=()=>{
       clearTimeout(loadTimer);
       plLoad.classList.remove('show');
       plBlocked.classList.add('show');
       plFrame.classList.remove('show');
     };
-
-    /* Hard timeout: if onload never fires after 15s, show blocked fallback */
     loadTimer=setTimeout(()=>{
       if(plLoad.classList.contains('show')){
         plLoad.classList.remove('show');
         plBlocked.classList.add('show');
       }
     },15000);
-
   },200);
 }
 
@@ -823,7 +507,6 @@ function launchSim(id){
   const sim=SIMS.find(s=>s.id===id);
   if(!sim||activeSim===id) return;
   activeSim=id;
-  buildGrid();
   updateSidebar();
   showPlayer(sim);
   document.getElementById('sb-active').textContent=sim.name.toUpperCase();
@@ -846,7 +529,6 @@ function updateSidebar(){
   });
 }
 
-/* reload */
 document.getElementById('btnReload').onclick=()=>{
   if(!activeSim) return;
   const sim=SIMS.find(s=>s.id===activeSim);
@@ -872,41 +554,31 @@ document.getElementById('btnReload').onclick=()=>{
   },150);
 };
 
-/* close */
 document.getElementById('btnClose').onclick=()=>{
   clearTimeout(loadTimer);
   activeSim=null;
   plFrame.src='';
-  buildGrid();
   updateSidebar();
   showWelcome();
   document.getElementById('sb-active').textContent='NO SIM ACTIVE';
   document.getElementById('sb-active').style.color='var(--phys)';
 };
 
-/* ═══════════════════════════════════════════════════
-   FILTER TABS
-═══════════════════════════════════════════════════ */
 document.getElementById('tabBar').addEventListener('click',e=>{
   const btn=e.target.closest('.tab');
   if(!btn) return;
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
   btn.classList.add('on');
   activeSub=btn.dataset.s;
-  buildGrid();
+  filterSidebar();
 });
 
-/* ═══════════════════════════════════════════════════
-   SEARCH
-═══════════════════════════════════════════════════ */
 document.getElementById('searchBox').addEventListener('input',e=>{
   activeSearch=e.target.value.trim();
-  buildGrid();
+  filterSidebar();
 });
 
-/* ═══════════════════════════════════════════════════
-   CURSOR
-═══════════════════════════════════════════════════ */
+/* cursor */
 const cr1=document.getElementById('cr1'),cr2=document.getElementById('cr2');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
@@ -917,54 +589,34 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
   requestAnimationFrame(tick);
 })();
 document.addEventListener('mouseover',e=>{
-  const el=e.target.closest('button,a,.sc,.ss,.sg-hdr,.tab');
-  if(el){cr2.style.width='40px';cr2.style.height='40px';cr2.style.borderColor='rgba(255,255,255,0.5)';}
+  if(e.target.closest('button,a,.ss,.sg-hdr,.tab')){cr2.style.width='40px';cr2.style.height='40px';cr2.style.borderColor='rgba(255,255,255,0.5)';}
 });
 document.addEventListener('mouseout',e=>{
-  const el=e.target.closest('button,a,.sc,.ss,.sg-hdr,.tab');
-  if(el){cr2.style.width='26px';cr2.style.height='26px';cr2.style.borderColor='rgba(255,255,255,0.25)';}
+  if(e.target.closest('button,a,.ss,.sg-hdr,.tab')){cr2.style.width='26px';cr2.style.height='26px';cr2.style.borderColor='rgba(255,255,255,0.25)';}
 });
 
-/* ═══════════════════════════════════════════════════
-   CLOCK
-═══════════════════════════════════════════════════ */
 (function clk(){
-  document.getElementById('sb-time').textContent=
-    new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  document.getElementById('sb-time').textContent=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
   setTimeout(clk,1000);
 })();
 
-/* ═══════════════════════════════════════════════════
-   BACKGROUND STARS
-═══════════════════════════════════════════════════ */
 const bgc=document.getElementById('bgc');
 const bx=bgc.getContext('2d');
 let stars=[];
 function makestars(){
   bgc.width=innerWidth;bgc.height=innerHeight;stars=[];
-  for(let i=0;i<220;i++) stars.push({
-    x:Math.random()*bgc.width,y:Math.random()*bgc.height,
-    r:.2+Math.random()*1.1,o:.1+Math.random()*.5,t:Math.random()*6.28
-  });
+  for(let i=0;i<220;i++) stars.push({x:Math.random()*bgc.width,y:Math.random()*bgc.height,r:.2+Math.random()*1.1,o:.1+Math.random()*.5,t:Math.random()*6.28});
 }
 function drawstars(){
   bx.clearRect(0,0,bgc.width,bgc.height);
-  stars.forEach(s=>{
-    s.t+=.01;
-    const a=s.o*(.5+.5*Math.sin(s.t));
-    bx.beginPath();bx.arc(s.x,s.y,s.r,0,6.28);
-    bx.fillStyle=`rgba(160,200,255,${a})`;bx.fill();
-  });
+  stars.forEach(s=>{s.t+=.01;const a=s.o*(.5+.5*Math.sin(s.t));bx.beginPath();bx.arc(s.x,s.y,s.r,0,6.28);bx.fillStyle=`rgba(160,200,255,${a})`;bx.fill();});
   requestAnimationFrame(drawstars);
 }
 makestars();drawstars();
 window.addEventListener('resize',makestars);
 
-/* ═══════════════════════════════════════════════════
-   INIT
-═══════════════════════════════════════════════════ */
 buildSidebar();
-buildGrid();
+filterSidebar();
 showWelcome();
 </script>
 </body>
