@@ -58,27 +58,67 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 .tb-search input::placeholder{color:var(--muted);}
 .tb-search span{color:var(--muted);font-size:.9rem;flex-shrink:0;}
 
-.tb-tabs{display:flex;gap:3px;flex-shrink:0;}
-.tab{
-  font-family:'JetBrains Mono',monospace;font-size:.58rem;
-  letter-spacing:2px;text-transform:uppercase;
-  padding:5px 13px;border:1px solid transparent;
-  background:transparent;color:var(--muted);cursor:pointer;
-  transition:all .2s;position:relative;
+/* ─ CUSTOM DROPDOWN ─ */
+.filter-dropdown {
+  position: relative;
+  flex-shrink: 0;
+  width: 180px;
 }
-.tab::after{
-  content:'';position:absolute;bottom:-1px;left:0;right:0;
-  height:2px;background:var(--tc);transform:scaleX(0);transition:transform .2s;
+.fd-selected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+  padding: 0 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--b1);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--txt);
+  cursor: pointer;
+  transition: all .2s;
+  user-select: none;
 }
-.tab:hover{color:var(--tc);border-color:rgba(255,255,255,0.08);}
-.tab.on{color:var(--tc);border-color:var(--tc);background:rgba(255,255,255,0.03);}
-.tab.on::after{transform:scaleX(1);}
-[data-s="all"]{--tc:var(--txt);}
-[data-s="bio"] {--tc:var(--bio);}
-[data-s="chem"]{--tc:var(--chem);}
-[data-s="phys"]{--tc:var(--phys);}
-[data-s="earth"]{--tc:var(--earth);}
-[data-s="math"]{--tc:var(--math);}
+.fd-selected:hover { border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); }
+.fd-arrow { font-size: 0.5rem; color: var(--muted); transition: transform 0.2s; }
+.fd-options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--b1);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-5px);
+  transition: all .2s;
+  z-index: 300;
+}
+.fd-options.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.fd-option {
+  padding: 10px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background .15s, color .15s;
+}
+.fd-option:hover { background: rgba(255,255,255,0.05); color: var(--tc); }
+.fd-option.on { background: rgba(255,255,255,0.02); color: var(--tc); border-left: 2px solid var(--tc); }
 
 .tb-count{
   font-family:'JetBrains Mono',monospace;font-size:.58rem;
@@ -142,7 +182,7 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
   display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
   gap:1px;margin-bottom:28px;background:var(--b1);border:1px solid var(--b1);
 }
-/* sim card — inline style sets --cc per card */
+/* sim card */
 .sc{
   background:var(--panel);padding:18px 16px;cursor:pointer;
   position:relative;overflow:hidden;
@@ -300,7 +340,6 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
   .sidebar{display:none;}
   .player{width:0!important;}
   .player.show-mobile{width:100%!important;position:absolute;inset:0;z-index:100;}
-  .tb-tabs .tab:not(.on):not([data-s="all"]){display:none;}
 }
 </style>
 </head>
@@ -310,7 +349,6 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 <div id="cr2"></div>
 <canvas id="bgc"></canvas>
 
-<!-- ═══ TOPBAR ═══════════════════════════════ -->
 <div class="topbar">
   <a class="logo" href="#">
     <div class="logo-spin"></div>FUGUG
@@ -319,21 +357,30 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
     <span>⌕</span>
     <input type="text" id="searchBox" placeholder="Search simulations, topics, keywords…" autocomplete="off">
   </div>
-  <div class="tb-tabs" id="tabBar">
-    <button class="tab on" data-s="all">All</button>
-    <button class="tab" data-s="bio">🧬 Bio</button>
-    <button class="tab" data-s="chem">⚗️ Chem</button>
-    <button class="tab" data-s="phys">⚡ Physics</button>
-    <button class="tab" data-s="earth">🌍 Earth</button>
-    <button class="tab" data-s="math">∑ Math</button>
+  
+  <div class="filter-dropdown" id="subjectDropdown">
+    <div class="fd-selected" id="fdSelected">
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span class="fd-icon">⌬</span>
+        <span class="fd-text">All Subjects</span>
+      </div>
+      <span class="fd-arrow">▼</span>
+    </div>
+    <div class="fd-options" id="fdOptions">
+      <div class="fd-option on" data-s="all" data-name="All Subjects" data-ico="⌬" style="--tc:var(--txt)">⌬ All Subjects</div>
+      <div class="fd-option" data-s="bio" data-name="Biology" data-ico="🧬" style="--tc:var(--bio)">🧬 Biology</div>
+      <div class="fd-option" data-s="chem" data-name="Chemistry" data-ico="⚗️" style="--tc:var(--chem)">⚗️ Chemistry</div>
+      <div class="fd-option" data-s="phys" data-name="Physics" data-ico="⚡" style="--tc:var(--phys)">⚡ Physics</div>
+      <div class="fd-option" data-s="earth" data-name="Earth Science" data-ico="🌍" style="--tc:var(--earth)">🌍 Earth</div>
+      <div class="fd-option" data-s="math" data-name="Math & Stats" data-ico="∑" style="--tc:var(--math)">∑ Math & Stats</div>
+    </div>
   </div>
+
   <div class="tb-count" id="tbCount">0 sims</div>
 </div>
 
-<!-- ═══ APP BODY ══════════════════════════════ -->
 <div class="app-body">
 
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sb-head">
       <span class="sb-tag">// simulation index</span>
@@ -342,15 +389,12 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
     <div class="sb-scroll" id="sbScroll"></div>
   </aside>
 
-  <!-- CENTER GRID -->
   <div class="center">
     <div class="grid-scroll" id="gridScroll"></div>
   </div>
 
-  <!-- PLAYER PANEL -->
   <div class="player" id="player">
 
-    <!-- Welcome -->
     <div class="pl-top" id="plTopWelcome" style="justify-content:center;">
       <span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);">// SELECT A SIMULATION TO BEGIN</span>
     </div>
@@ -368,7 +412,6 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
       </div>
     </div>
 
-    <!-- Active player (hidden until sim selected) -->
     <div class="pl-top" id="plTopActive" style="display:none;">
       <div class="pl-info">
         <div class="pl-nm" id="plName">—</div>
@@ -400,7 +443,6 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 
 </div>
 
-<!-- ═══ STATUSBAR ════════════════════════════ -->
 <div class="statusbar">
   <div class="sb-blink"></div>
   <span>FUGUG SCIENCE PLATFORM</span>
@@ -795,7 +837,6 @@ function showPlayer(sim){
 
     plFrame.onload=()=>{
       clearTimeout(loadTimer);
-      /* onload fired — sim is in the frame, show it */
       plLoad.classList.remove('show');
       plBlocked.classList.remove('show');
       plFrame.classList.add('show');
@@ -808,7 +849,7 @@ function showPlayer(sim){
       plFrame.classList.remove('show');
     };
 
-    /* Hard timeout: if onload never fires after 15s, show blocked fallback */
+    /* Hard timeout */
     loadTimer=setTimeout(()=>{
       if(plLoad.classList.contains('show')){
         plLoad.classList.remove('show');
@@ -885,14 +926,41 @@ document.getElementById('btnClose').onclick=()=>{
 };
 
 /* ═══════════════════════════════════════════════════
-   FILTER TABS
+   CUSTOM DROPDOWN LOGIC
 ═══════════════════════════════════════════════════ */
-document.getElementById('tabBar').addEventListener('click',e=>{
-  const btn=e.target.closest('.tab');
-  if(!btn) return;
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  btn.classList.add('on');
-  activeSub=btn.dataset.s;
+const subjectDropdown = document.getElementById('subjectDropdown');
+const fdSelected = document.getElementById('fdSelected');
+const fdOptions = document.getElementById('fdOptions');
+const fdText = fdSelected.querySelector('.fd-text');
+const fdIcon = fdSelected.querySelector('.fd-icon');
+
+// Toggle Dropdown
+fdSelected.addEventListener('click', (e) => {
+  e.stopPropagation();
+  fdOptions.classList.toggle('show');
+});
+
+// Close when clicking outside
+document.addEventListener('click', () => {
+  fdOptions.classList.remove('show');
+});
+
+// Handle Option Selection
+fdOptions.addEventListener('click', (e) => {
+  const opt = e.target.closest('.fd-option');
+  if(!opt) return;
+
+  // Update styles
+  document.querySelectorAll('.fd-option').forEach(o => o.classList.remove('on'));
+  opt.classList.add('on');
+
+  // Update selected display
+  fdText.textContent = opt.dataset.name;
+  fdIcon.textContent = opt.dataset.ico;
+  fdSelected.style.color = opt.style.getPropertyValue('--tc');
+
+  // Update global state and re-render grid
+  activeSub = opt.dataset.s;
   buildGrid();
 });
 
@@ -917,11 +985,11 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
   requestAnimationFrame(tick);
 })();
 document.addEventListener('mouseover',e=>{
-  const el=e.target.closest('button,a,.sc,.ss,.sg-hdr,.tab');
+  const el=e.target.closest('button,a,.sc,.ss,.sg-hdr,.tab,.fd-selected,.fd-option');
   if(el){cr2.style.width='40px';cr2.style.height='40px';cr2.style.borderColor='rgba(255,255,255,0.5)';}
 });
 document.addEventListener('mouseout',e=>{
-  const el=e.target.closest('button,a,.sc,.ss,.sg-hdr,.tab');
+  const el=e.target.closest('button,a,.sc,.ss,.sg-hdr,.tab,.fd-selected,.fd-option');
   if(el){cr2.style.width='26px';cr2.style.height='26px';cr2.style.borderColor='rgba(255,255,255,0.25)';}
 });
 
