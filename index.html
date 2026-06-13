@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>AXIOM — 3D Science Simulation Platform</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -27,7 +27,7 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
   height:var(--topH);flex-shrink:0;
   background:rgba(2,5,9,0.98);border-bottom:1px solid var(--b1);
   display:flex;align-items:center;padding:0 18px;gap:14px;
-  z-index:200;position:relative;
+  z-index:400;position:relative;
 }
 .logo{
   font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;
@@ -40,6 +40,19 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
   animation:lspin 3s linear infinite;
 }
 @keyframes lspin{to{transform:rotate(360deg);}}
+
+/* ─ mobile menu button ─ */
+.menu-btn{
+  display:none;align-items:center;justify-content:center;
+  width:34px;height:34px;flex-shrink:0;
+  background:rgba(255,255,255,0.04);border:1px solid var(--b1);
+  color:var(--txt);cursor:pointer;
+  font-size:1.1rem;line-height:1;transition:all .2s;
+}
+.menu-btn:hover{background:rgba(255,255,255,0.08);border-color:var(--b2);}
+.menu-btn .ic-close{display:none;}
+.sidebar.open ~ .topbar .menu-btn .ic-open{display:none;}
+.sidebar.open ~ .topbar .menu-btn .ic-close{display:inline;}
 
 .tb-search{
   flex:1;max-width:380px;height:32px;
@@ -59,7 +72,7 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
   letter-spacing:2px;text-transform:uppercase;
   padding:5px 13px;border:1px solid transparent;
   background:transparent;color:var(--muted);cursor:pointer;
-  transition:all .2s;position:relative;
+  transition:all .2s;position:relative;white-space:nowrap;
 }
 .tab::after{
   content:'';position:absolute;bottom:-1px;left:0;right:0;
@@ -80,7 +93,7 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
   letter-spacing:2px;color:var(--muted);white-space:nowrap;flex-shrink:0;margin-left:auto;
 }
 
-.app-body{flex:1;display:flex;overflow:hidden;min-height:0;}
+.app-body{flex:1;display:flex;overflow:hidden;min-height:0;position:relative;}
 
 /* ─ sidebar ─ */
 .sidebar{
@@ -90,9 +103,24 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 }
 .sb-head{
   padding:14px 16px;border-bottom:1px solid var(--b1);flex-shrink:0;
+  display:flex;align-items:center;gap:10px;justify-content:space-between;
 }
+.sb-head-text{min-width:0;flex:1;}
 .sb-tag{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;}
 .sb-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;line-height:1.2;}
+.sb-close{
+  display:none;align-items:center;justify-content:center;
+  width:30px;height:30px;flex-shrink:0;
+  background:rgba(255,255,255,0.04);border:1px solid var(--b1);
+  color:var(--txt);cursor:pointer;font-size:1rem;line-height:1;
+}
+.sb-close:hover{background:rgba(255,77,109,0.1);border-color:rgba(255,77,109,0.3);color:var(--chem);}
+
+/* mobile-only search & tabs, shown inside sidebar drawer */
+.sb-mobile-controls{display:none;flex-direction:column;gap:8px;padding:12px 16px;border-bottom:1px solid var(--b1);flex-shrink:0;}
+.sb-mobile-controls .tb-search{max-width:none;}
+.sb-mobile-controls .tb-tabs{flex-wrap:wrap;}
+
 .sb-scroll{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:rgba(80,160,255,0.15) transparent;}
 .sb-scroll::-webkit-scrollbar{width:3px;}
 .sb-scroll::-webkit-scrollbar-thumb{background:rgba(80,160,255,0.15);}
@@ -119,12 +147,20 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 .ss-name{font-size:.85rem;font-weight:600;color:var(--txt);display:block;line-height:1.3;transition:color .15s;}
 .ss-lv{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:1px;color:var(--muted);text-transform:uppercase;display:block;margin-top:1px;}
 
+/* ─ sidebar backdrop (mobile drawer) ─ */
+.sidebar-backdrop{
+  position:fixed;inset:0;background:rgba(0,0,0,0.55);
+  z-index:380;opacity:0;pointer-events:none;transition:opacity .3s ease;
+}
+.sidebar-backdrop.show{opacity:1;pointer-events:all;}
+
 /* ─ PLAYER ─ */
 .player{
   flex:1;
   background:var(--ink);border-left:1px solid var(--b1);
   display:flex;flex-direction:column;overflow:hidden;
   transition:width .3s cubic-bezier(.4,0,.2,1);
+  min-width:0;
 }
 .player.narrow{width:0;}
 
@@ -168,6 +204,15 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 .pw-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:8px;}
 .pw-hint{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
 .pw-txt{font-size:.88rem;color:var(--muted);line-height:1.7;max-width:280px;}
+.pw-mobile-btn{
+  display:none;margin-top:22px;
+  align-items:center;gap:8px;
+  padding:11px 22px;background:var(--phys);color:#000;
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;
+  letter-spacing:2px;text-transform:uppercase;font-weight:700;
+  border:none;cursor:pointer;transition:all .2s;
+}
+.pw-mobile-btn:hover{background:#fff;}
 
 .pl-loading{
   display:none;flex-direction:column;align-items:center;
@@ -215,10 +260,68 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 
 #bgc{position:fixed;inset:0;z-index:-1;pointer-events:none;}
 
-@media(max-width:960px){:root{--sbW:220px;}}
+@media(max-width:960px){:root{--sbW:240px;}}
+
+/* ─────────────────────────────────────────
+   MOBILE LAYOUT (≤700px)
+   - sidebar becomes a slide-in drawer
+   - search + subject tabs move into the drawer
+   - topbar collapses to logo + menu + count
+   - status bar trims to fit
+───────────────────────────────────────── */
 @media(max-width:700px){
-  .sidebar{display:none;}
+
+  .topbar{padding:0 10px;gap:8px;}
+  .logo{font-size:1.05rem;letter-spacing:2px;}
+  .logo-spin{width:16px;height:16px;}
+
+  .menu-btn{display:flex;}
+
+  /* hide topbar search & tabs on mobile — they live in the drawer instead */
+  .topbar .tb-search,.topbar .tb-tabs{display:none;}
+  .tb-count{font-size:.5rem;letter-spacing:1px;}
+
+  .sidebar{
+    position:fixed;top:0;left:0;bottom:0;
+    width:85%;max-width:320px;
+    z-index:390;
+    transform:translateX(-100%);
+    transition:transform .3s cubic-bezier(.4,0,.2,1);
+    box-shadow:18px 0 50px rgba(0,0,0,.6);
+    border-right:1px solid var(--b2);
+  }
+  .sidebar.open{transform:translateX(0);}
+
+  .sb-close{display:flex;}
+
+  .sb-mobile-controls{display:flex;}
+  .sb-mobile-controls .tb-search{display:flex;}
+  .sb-mobile-controls .tb-tabs{display:flex;}
+
   .player{width:100%!important;}
+
+  /* player top bar: let title shrink, keep buttons tappable */
+  .pl-top{padding:0 10px;gap:6px;}
+  .pl-nm{font-size:.82rem;}
+  .pl-sub{font-size:.46rem;}
+  .pb{padding:0 7px;font-size:.5rem;height:30px;}
+  .pb span.pb-label{display:none;}
+
+  .pl-welcome{padding:24px;}
+  .pw-title{font-size:1.2rem;}
+  .pw-txt{font-size:.85rem;max-width:240px;}
+  .pw-mobile-btn{display:flex;}
+
+  .statusbar{gap:10px;padding:0 10px;font-size:.46rem;}
+  .statusbar span:nth-of-type(2),.statusbar span:nth-of-type(3){display:none;}
+  .sb-div:nth-of-type(1),.sb-div:nth-of-type(2){display:none;}
+  .sb-right{gap:10px;}
+  #sb-cnt{display:none;}
+}
+
+@media(max-width:380px){
+  .logo span{display:none;}
+  .tb-count{display:none;}
 }
 </style>
 </head>
@@ -229,8 +332,11 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 <canvas id="bgc"></canvas>
 
 <div class="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle simulation list">
+    <span class="ic-open">☰</span><span class="ic-close">✕</span>
+  </button>
   <a class="logo" href="#">
-    <div class="logo-spin"></div>FUGUG
+    <div class="logo-spin"></div><span>FUGUG</span>
   </a>
   <div class="tb-search">
     <span>⌕</span>
@@ -249,16 +355,38 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
 
 <div class="app-body">
 
-  <!-- SIDEBAR ONLY -->
-  <aside class="sidebar">
+  <div class="sidebar-backdrop" id="sbBackdrop"></div>
+
+  <!-- SIDEBAR / MOBILE DRAWER -->
+  <aside class="sidebar" id="sidebar">
     <div class="sb-head">
-      <span class="sb-tag">// simulation index</span>
-      <div class="sb-title">All Labs</div>
+      <div class="sb-head-text">
+        <span class="sb-tag">// simulation index</span>
+        <div class="sb-title">All Labs</div>
+      </div>
+      <button class="sb-close" id="sbClose" aria-label="Close menu">✕</button>
     </div>
+
+    <!-- mobile-only search + filter tabs -->
+    <div class="sb-mobile-controls">
+      <div class="tb-search">
+        <span>⌕</span>
+        <input type="text" id="searchBoxMobile" placeholder="Search simulations…" autocomplete="off">
+      </div>
+      <div class="tb-tabs" id="tabBarMobile">
+        <button class="tab on" data-s="all">All</button>
+        <button class="tab" data-s="bio">🧬 Bio</button>
+        <button class="tab" data-s="chem">⚗️ Chem</button>
+        <button class="tab" data-s="phys">⚡ Physics</button>
+        <button class="tab" data-s="earth">🌍 Earth</button>
+        <button class="tab" data-s="math">∑ Math</button>
+      </div>
+    </div>
+
     <div class="sb-scroll" id="sbScroll"></div>
   </aside>
 
-  <!-- PLAYER PANEL (now takes full remaining width) -->
+  <!-- PLAYER PANEL -->
   <div class="player" id="player">
 
     <div class="pl-top" id="plTopWelcome" style="justify-content:center;">
@@ -273,19 +401,21 @@ body{background:var(--ink);color:var(--txt);font-family:'Rajdhani',sans-serif;di
           <div class="pw-dot"></div>
         </div>
         <div class="pw-title">Simulation Player</div>
-        <div class="pw-hint">click any card to launch</div>
-        <p class="pw-txt">Pick a simulation from the sidebar. It runs right here — no new tab, no downloads.</p>
+        <div class="pw-hint">tap a sim to launch</div>
+        <p class="pw-txt">Pick a simulation from the list. It runs right here — no new tab, no downloads.</p>
+        <button class="pw-mobile-btn" id="pwMobileBtn">☰ Browse Simulations</button>
       </div>
     </div>
 
     <div class="pl-top" id="plTopActive" style="display:none;">
+      <button class="menu-btn" id="menuBtnPlayer" aria-label="Toggle simulation list" style="display:none;">☰</button>
       <div class="pl-info">
         <div class="pl-nm" id="plName">—</div>
         <div class="pl-sub" id="plSub">—</div>
       </div>
       <div class="pl-btns">
-        <button class="pb" id="btnReload">↺ Reload</button>
-        <a class="pb" id="btnOpen" href="#" target="_blank" rel="noopener">↗ New Tab</a>
+        <button class="pb" id="btnReload">↺ <span class="pb-label">Reload</span></button>
+        <a class="pb" id="btnOpen" href="#" target="_blank" rel="noopener">↗ <span class="pb-label">New Tab</span></a>
         <button class="pb x" id="btnClose">✕</button>
       </div>
     </div>
@@ -505,12 +635,16 @@ function showPlayer(sim){
 
 function launchSim(id){
   const sim=SIMS.find(s=>s.id===id);
-  if(!sim||activeSim===id) return;
-  activeSim=id;
-  updateSidebar();
-  showPlayer(sim);
-  document.getElementById('sb-active').textContent=sim.name.toUpperCase();
-  document.getElementById('sb-active').style.color=C[sim.sub];
+  if(!sim) return;
+  if(activeSim!==id){
+    activeSim=id;
+    updateSidebar();
+    showPlayer(sim);
+    document.getElementById('sb-active').textContent=sim.name.toUpperCase();
+    document.getElementById('sb-active').style.color=C[sim.sub];
+  }
+  // on mobile, close the drawer once a sim is chosen
+  closeDrawer();
 }
 
 function updateSidebar(){
@@ -564,19 +698,72 @@ document.getElementById('btnClose').onclick=()=>{
   document.getElementById('sb-active').style.color='var(--phys)';
 };
 
+/* ─ subject tabs (desktop + mobile copies kept in sync) ─ */
+function setActiveTab(sub){
+  activeSub=sub;
+  document.querySelectorAll('#tabBar .tab, #tabBarMobile .tab').forEach(t=>{
+    t.classList.toggle('on',t.dataset.s===sub);
+  });
+  filterSidebar();
+}
 document.getElementById('tabBar').addEventListener('click',e=>{
   const btn=e.target.closest('.tab');
   if(!btn) return;
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  btn.classList.add('on');
-  activeSub=btn.dataset.s;
-  filterSidebar();
+  setActiveTab(btn.dataset.s);
+});
+document.getElementById('tabBarMobile').addEventListener('click',e=>{
+  const btn=e.target.closest('.tab');
+  if(!btn) return;
+  setActiveTab(btn.dataset.s);
 });
 
-document.getElementById('searchBox').addEventListener('input',e=>{
-  activeSearch=e.target.value.trim();
+/* ─ search boxes (desktop + mobile copies kept in sync) ─ */
+function setSearch(val){
+  activeSearch=val.trim();
+  const sb=document.getElementById('searchBox');
+  const sbm=document.getElementById('searchBoxMobile');
+  if(sb.value!==val) sb.value=val;
+  if(sbm.value!==val) sbm.value=val;
   filterSidebar();
-});
+}
+document.getElementById('searchBox').addEventListener('input',e=>setSearch(e.target.value));
+document.getElementById('searchBoxMobile').addEventListener('input',e=>setSearch(e.target.value));
+
+/* ─ mobile drawer open/close ─ */
+const sidebar=document.getElementById('sidebar');
+const sbBackdrop=document.getElementById('sbBackdrop');
+const menuBtn=document.getElementById('menuBtn');
+const menuBtnPlayer=document.getElementById('menuBtnPlayer');
+const sbClose=document.getElementById('sbClose');
+const pwMobileBtn=document.getElementById('pwMobileBtn');
+
+function openDrawer(){
+  sidebar.classList.add('open');
+  sbBackdrop.classList.add('show');
+}
+function closeDrawer(){
+  sidebar.classList.remove('open');
+  sbBackdrop.classList.remove('show');
+}
+function toggleDrawer(){
+  if(sidebar.classList.contains('open')) closeDrawer();
+  else openDrawer();
+}
+menuBtn.addEventListener('click',toggleDrawer);
+menuBtnPlayer.addEventListener('click',toggleDrawer);
+sbClose.addEventListener('click',closeDrawer);
+sbBackdrop.addEventListener('click',closeDrawer);
+pwMobileBtn.addEventListener('click',openDrawer);
+
+/* show the in-player menu button only when a sim is active and on mobile */
+function syncMobileUI(){
+  const isMobile=window.innerWidth<=700;
+  menuBtnPlayer.style.display=isMobile&&activeSim?'flex':'none';
+}
+window.addEventListener('resize',syncMobileUI);
+const origLaunch=launchSim;
+launchSim=function(id){ origLaunch(id); syncMobileUI(); };
+document.getElementById('btnClose').addEventListener('click',syncMobileUI);
 
 /* cursor */
 const cr1=document.getElementById('cr1'),cr2=document.getElementById('cr2');
@@ -594,6 +781,11 @@ document.addEventListener('mouseover',e=>{
 document.addEventListener('mouseout',e=>{
   if(e.target.closest('button,a,.ss,.sg-hdr,.tab')){cr2.style.width='26px';cr2.style.height='26px';cr2.style.borderColor='rgba(255,255,255,0.25)';}
 });
+/* hide the fancy custom cursor on touch devices */
+if(matchMedia('(pointer: coarse)').matches){
+  cr1.style.display='none';
+  cr2.style.display='none';
+}
 
 (function clk(){
   document.getElementById('sb-time').textContent=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
@@ -618,6 +810,7 @@ window.addEventListener('resize',makestars);
 buildSidebar();
 filterSidebar();
 showWelcome();
+syncMobileUI();
 </script>
 </body>
 </html>
